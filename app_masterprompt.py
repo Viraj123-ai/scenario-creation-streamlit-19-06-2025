@@ -19,7 +19,7 @@ def main():
             persona_name = st.text_input("Persona Name")
             
 
-        voice_dict = {"Ava":"en-US-AvaMultilingualNeural", "Andrew":"en-US-AndrewMultilingualNeural"}
+        voice_dict = {"Echo": "echo", "Sage": "sage"}
         with col2:
             image_url = st.text_input("Image URL")
             voice_id = st.selectbox("Voice ID", list(voice_dict.keys()), placeholder="Select Voice ID", index=None)

@@ -42,6 +42,10 @@ def main():
         # Prompt
         prompt = st.text_area("Prompt")
 
+        # Master Prompt - New field added
+        master_prompt = st.text_area("Master Prompt", 
+                                   help="Enter the master prompt for this scenario")
+
         submitted = st.form_submit_button("Add Scenario")
 
         if submitted:
@@ -55,6 +59,7 @@ def main():
                 "name": name,
                 "difficulty_level": difficulty_level,
                 "prompt": prompt,
+                "master_prompt": master_prompt,  # Added master_prompt field
                 "type": type,
                 "persona": persona,
                 "persona_name": persona_name,

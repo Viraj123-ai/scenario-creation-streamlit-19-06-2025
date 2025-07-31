@@ -19,21 +19,21 @@ def main():
             persona_name = st.text_input("Persona Name")
             
         voice_dict = {"AF HEART": "af_heart"}
-        tts_dict = {
-            "Retired Old Man": "b2c_retired_old_man",
-            "Retired Old Lady": "b2c_retired_old_lady",
-            "Startup Founder": "startup_founder",
-            "Skeptical Manager": "skeptical_manager",
-            "B2C Buyer": "b2c_buyer",
-            "Sharp CEO": "sharp_ceo",
-            "Software Developer": "software_developer",
-            "Curious Customer": "curious_customer"
-        }
+        # tts_dict = {
+        #     "Retired Old Man": "b2c_retired_old_man",
+        #     "Retired Old Lady": "b2c_retired_old_lady",
+        #     "Startup Founder": "startup_founder",
+        #     "Skeptical Manager": "skeptical_manager",
+        #     "B2C Buyer": "b2c_buyer",
+        #     "Sharp CEO": "sharp_ceo",
+        #     "Software Developer": "software_developer",
+        #     "Curious Customer": "curious_customer"
+        # }
 
         with col2:
             image_url = st.text_input("Image URL")
             voice_id = st.selectbox("Voice ID", list(voice_dict.keys()), placeholder="Select Voice ID", index=None)
-            tts_instruction_label = st.selectbox("TTS Instructions", list(tts_dict.keys()), placeholder="Select Instruction", index=None)
+            # tts_instruction_label = st.selectbox("TTS Instructions", list(tts_dict.keys()), placeholder="Select Instruction", index=None)
             difficulty_level = st.selectbox("Difficulty Level", ["easy", "medium", "hard"], placeholder="Select Level", index=None)
 
         # Persona Description
@@ -69,8 +69,8 @@ def main():
             if voice_id:
                 data["voice_id"] = voice_dict[voice_id]
 
-            if tts_instruction_label:
-                data["tts_instructions"] = tts_dict[tts_instruction_label]
+            # if tts_instruction_label:
+            #     data["tts_instructions"] = tts_dict[tts_instruction_label]
 
             try:
                 response = requests.post(

@@ -3,7 +3,7 @@ import requests
 import json
 
 # Configure the API URL
-API_URL = "http://demo-domain.cloudjiffy.net/"  
+API_URL = "https://demo-unified.cloudjiffy.net/"  
 
 def main():
     st.title("Scenario Management System")

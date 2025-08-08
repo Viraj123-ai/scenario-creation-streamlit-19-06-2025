@@ -42,7 +42,7 @@ def main():
         # Prompt
         prompt = st.text_area("Prompt")
 
-        Master Prompt - New field added
+        # Master Prompt - New field added
         master_prompt = st.text_area("Master Prompt", 
                                    help="Enter the master prompt for this scenario")
 

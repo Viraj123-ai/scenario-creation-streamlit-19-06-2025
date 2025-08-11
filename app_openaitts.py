@@ -18,7 +18,7 @@ def main():
             type = st.selectbox("Scenario Type", ["sales", "customer"], placeholder="Select Type", index=None)  
             persona_name = st.text_input("Persona Name")
             
-        voice_dict = {"Ashley": "Ashley"}
+        voice_dict = {"Ashley": "Ashley", "Shaun": "Shaun"}
         # tts_dict = {
         #     "Retired Old Man": "b2c_retired_old_man",
         #     "Retired Old Lady": "b2c_retired_old_lady",

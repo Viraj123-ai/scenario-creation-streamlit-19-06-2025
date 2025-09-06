@@ -18,7 +18,7 @@ def main():
             type = st.selectbox("Scenario Type", ["sales", "customer"], placeholder="Select Type", index=None)  
             persona_name = st.text_input("Persona Name")
             
-        voice_dict = {"Ashley": "Ashley", "Shaun": "Shaun", "default-gf-lgx1tbshlcmqoc9wy4a__timothy": "default-gf-lgx1tbshlcmqoc9wy4a__timothy"}
+        voice_dict = {"default-gf-lgx1tbshlcmqoc9wy4a__stua": "default-gf-lgx1tbshlcmqoc9wy4a__stua", "default-gf-lgx1tbshlcmqoc9wy4a__neelam": "default-gf-lgx1tbshlcmqoc9wy4a__neelam"}
         # tts_dict = {
         #     "Retired Old Man": "b2c_retired_old_man",
         #     "Retired Old Lady": "b2c_retired_old_lady",
@@ -43,8 +43,8 @@ def main():
         prompt = st.text_area("Prompt")
 
         # Master Prompt - New field added
-        master_prompt = st.text_area("Master Prompt", 
-                                   help="Enter the master prompt for this scenario")
+        # master_prompt = st.text_area("Master Prompt", 
+        #                            help="Enter the master prompt for this scenario")
 
         submitted = st.form_submit_button("Add Scenario")
 
@@ -59,7 +59,7 @@ def main():
                 "name": name,
                 "difficulty_level": difficulty_level,
                 "prompt": prompt,
-                "master_prompt": master_prompt,  # Added master_prompt field
+                # "master_prompt": master_prompt,  # Added master_prompt field
                 "type": type,
                 "persona": persona,
                 "persona_name": persona_name,

@@ -3,7 +3,7 @@ import requests
 import json
 
 # Configure the API URL
-API_URL = "https://demo-unified.cloudjiffy.net/"  
+API_URL = "https://demo-unified.cloudjiffy.net"  # Removed trailing slash for consistency
 
 def main():
     st.title("Scenario Management System")
@@ -19,32 +19,29 @@ def main():
             persona_name = st.text_input("Persona Name")
             
         voice_dict = {"Male": "default-gf-lgx1tbshlcmqoc9wy4a__stua", "Female": "default-gf-lgx1tbshlcmqoc9wy4a__neelam"}
-        # tts_dict = {
-        #     "Retired Old Man": "b2c_retired_old_man",
-        #     "Retired Old Lady": "b2c_retired_old_lady",
-        #     "Startup Founder": "startup_founder",
-        #     "Skeptical Manager": "skeptical_manager",
-        #     "B2C Buyer": "b2c_buyer",
-        #     "Sharp CEO": "sharp_ceo",
-        #     "Software Developer": "software_developer",
-        #     "Curious Customer": "curious_customer"
-        # }
 
         with col2:
             image_url = st.text_input("Image URL")
             voice_id = st.selectbox("Voice ID", list(voice_dict.keys()), placeholder="Select Voice ID", index=None)
-            # tts_instruction_label = st.selectbox("TTS Instructions", list(tts_dict.keys()), placeholder="Select Instruction", index=None)
             difficulty_level = st.selectbox("Difficulty Level", ["easy", "medium", "hard"], placeholder="Select Level", index=None)
 
         # Persona Description
         persona = st.text_area("AI Persona Description")
 
-        # Prompt
+        # Prompt fields
         prompt = st.text_area("Prompt")
+        # master_prompt = st.text_area("Master Prompt", help="Enter the master prompt for this scenario")
 
-        # Master Prompt - New field added
-        # master_prompt = st.text_area("Master Prompt", 
-        #                            help="Enter the master prompt for this scenario")
+        # Custom Metrics
+        st.markdown("### Custom Metrics (optional)")
+        c1, c2 = st.columns(2)
+        with c1:
+            custom_metric1 = st.text_input("Custom Metric 1")
+            custom_metric2 = st.text_input("Custom Metric 2")
+            custom_metric3 = st.text_input("Custom Metric 3")
+        with c2:
+            custom_metric4 = st.text_input("Custom Metric 4")
+            custom_metric5 = st.text_input("Custom Metric 5")
 
         submitted = st.form_submit_button("Add Scenario")
 
@@ -59,18 +56,20 @@ def main():
                 "name": name,
                 "difficulty_level": difficulty_level,
                 "prompt": prompt,
-                # "master_prompt": master_prompt,  # Added master_prompt field
-                "type": type,
+                # "master_prompt": master_prompt,
+                "type": type,  # maps to roleplay_type in FastAPI
                 "persona": persona,
                 "persona_name": persona_name,
-                "image_url": image_url
+                "image_url": image_url,
+                "custom_metric1": custom_metric1 or None,
+                "custom_metric2": custom_metric2 or None,
+                "custom_metric3": custom_metric3 or None,
+                "custom_metric4": custom_metric4 or None,
+                "custom_metric5": custom_metric5 or None,
             }
 
             if voice_id:
                 data["voice_id"] = voice_dict[voice_id]
-
-            # if tts_instruction_label:
-            #     data["tts_instructions"] = tts_dict[tts_instruction_label]
 
             try:
                 response = requests.post(

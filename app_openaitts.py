@@ -3,7 +3,7 @@ import requests
 import json
 
 # Configure the API URL
-API_URL = "https://demo-unified.cloudjiffy.net"  # Removed trailing slash for consistency
+API_URL = "https://demo-unified.cloudjiffy.net"  # Removed trailing slash
 
 def main():
     st.title("Scenario Management System")
@@ -15,11 +15,9 @@ def main():
         col1, col2 = st.columns(2)
         with col1:
             name = st.text_input("Scenario Name")
-            type = st.selectbox("Scenario Type", ["sales", "customer"], placeholder="Select Type", index=None)  
+            type = st.selectbox("Scenario Type", ["sales", "customer"], placeholder="Select Type", index=None)
             persona_name = st.text_input("Persona Name")
-            
         voice_dict = {"Male": "default-gf-lgx1tbshlcmqoc9wy4a__stua", "Female": "default-gf-lgx1tbshlcmqoc9wy4a__neelam"}
-
         with col2:
             image_url = st.text_input("Image URL")
             voice_id = st.selectbox("Voice ID", list(voice_dict.keys()), placeholder="Select Voice ID", index=None)
@@ -32,16 +30,16 @@ def main():
         prompt = st.text_area("Prompt")
         # master_prompt = st.text_area("Master Prompt", help="Enter the master prompt for this scenario")
 
-        # Custom Metrics
+        # Custom Metrics Section
         st.markdown("### Custom Metrics (optional)")
-        c1, c2 = st.columns(2)
-        with c1:
-            custom_metric1 = st.text_input("Custom Metric 1")
-            custom_metric2 = st.text_input("Custom Metric 2")
-            custom_metric3 = st.text_input("Custom Metric 3")
-        with c2:
-            custom_metric4 = st.text_input("Custom Metric 4")
-            custom_metric5 = st.text_input("Custom Metric 5")
+        custom_metrics = []
+        for i in range(1, 6):
+            col1, col2 = st.columns(2)
+            with col1:
+                metric_name = st.text_input(f"Custom Metric {i} Name", key=f"cm{i}_name")
+            with col2:
+                metric_prompt = st.text_input(f"Custom Metric {i} Prompt", key=f"cm{i}_prompt")
+            custom_metrics.append((metric_name, metric_prompt))
 
         submitted = st.form_submit_button("Add Scenario")
 
@@ -57,19 +55,25 @@ def main():
                 "difficulty_level": difficulty_level,
                 "prompt": prompt,
                 # "master_prompt": master_prompt,
-                "type": type,  # maps to roleplay_type in FastAPI
+                "type": type,  # maps to roleplay_type in backend
                 "persona": persona,
                 "persona_name": persona_name,
                 "image_url": image_url,
-                "custom_metric1": custom_metric1 or None,
-                "custom_metric2": custom_metric2 or None,
-                "custom_metric3": custom_metric3 or None,
-                "custom_metric4": custom_metric4 or None,
-                "custom_metric5": custom_metric5 or None,
             }
 
             if voice_id:
                 data["voice_id"] = voice_dict[voice_id]
+
+            # Add custom metrics to payload if provided
+            for idx, (metric_name, metric_prompt) in enumerate(custom_metrics, start=1):
+                if metric_name:
+                    data[f"custom_metric{idx}"] = metric_name
+                    if metric_prompt:
+                        data[f"custom_metric{idx}_prompt"] = metric_prompt
+                    else:
+                        st.warning(f"Custom Metric {idx} Prompt is empty, but name is provided. Backend requires both.")
+                        # Optionally prevent submission
+                        # return
 
             try:
                 response = requests.post(
@@ -77,7 +81,7 @@ def main():
                     json=data,
                     headers={"Content-Type": "application/json"}
                 )
-                
+
                 if response.status_code == 201:
                     st.success("Scenario created successfully!")
                     st.json(response.json())
